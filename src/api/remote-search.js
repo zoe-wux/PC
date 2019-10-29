@@ -8,9 +8,17 @@ export function searchUser(name) {
   })
 }
 
+// export function transactionList(query) {
+//   return request({
+//     url: '/transaction/list',
+//     method: 'get',
+//     params: query
+//   })
+// }
+
 export function transactionList(query) {
   return request({
-    url: '/transaction/list',
+    url: '/user/info',
     method: 'get',
     params: query
   })

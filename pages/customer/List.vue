@@ -10,7 +10,7 @@
             <el-input v-model="keyWord" placeholder="请输入关键字" clearable />
           </el-form-item>
           <el-form-item>
-            <el-button size="small">搜索</el-button>
+            <el-button size="small" @click="searchHandler">搜索</el-button>
           </el-form-item>
         </el-form>
       </el-col>
@@ -18,7 +18,7 @@
 
     </div>
     <!-- 展示数据表格 -->
-    <el-table :data="customers">
+    <el-table :data="customers" @selection-change="idsChangeHandler">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="realname" label="姓名" />
       <el-table-column prop="telephone" label="手机号" />

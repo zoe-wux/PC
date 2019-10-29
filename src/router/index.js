@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 Vue.use(Router)
-
+import customerDetail from '../pages/customer/customerDetail'
 /* Layout */
 import Layout from '@/layout'
 
@@ -119,7 +119,99 @@ export const asyncRoutes = [
       }
     ]
   },
- 
+  {
+    path: '/customer/list',
+    component: Layout,
+    redirect: '/customer/customerDetail',
+    children: [
+      {
+        path: '/customer/customerDetail',
+        name: 'customerDetail',
+        component: customerDetail
+        // meta: { title: '顾客详情', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/list',
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/pages/category/List'),
+        name: 'category',
+        meta: { title: '栏目设置', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/product',
+    component: Layout,
+    redirect: '/product/list',
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/pages/product/List'),
+        name: 'product',
+        meta: { title: '产品管理', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/list',
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/pages/order/List'),
+        name: 'category',
+        meta: { title: '订单管理', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+  // {
+  //   path: '/address',
+  //   component: Layout,
+  //   redirect: '/address/list',
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/pages/address/List'),
+  //       name: 'category',
+  //       meta: { title: '地址管理', icon: 'edit', noCache: true }
+  //     }
+  //   ]
+  // },
+  {
+    path: '/waiter',
+    component: Layout,
+    redirect: '/waiter/list',
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/pages/waiter/List'),
+        name: 'category',
+        meta: { title: '员工管理', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+
+  // {
+  //   path: '/comment',
+  //   component: Layout,
+  //   redirect: '/comment/list',
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/pages/comment/List'),
+  //       name: 'category',
+  //       meta: { title: '评论管理', icon: 'edit', noCache: true }
+  //     }
+  //   ]
+  // },
   /*
   {
     path: '/permission',
