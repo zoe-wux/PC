@@ -21,8 +21,40 @@
     <el-table :data="customers">
       <el-table-column type="selection" width="55" />
       <el-table-column prop="realname" label="姓名" />
-      <el-table-column prop="telephone" label="手机号" />
+      <el-table-column prop="gender" label="性别" />
       <el-table-column prop="password" label="密码" />
+      <el-table-column prop="telephone" label="手机号" />
+      <el-table-column prop="qq" label="QQ" />
+      <el-table-column prop="wxid" label="微信" />
+      <el-table-column label="地址">
+        <el-table-column prop="provinceid" label="省份" />
+        <el-table-column prop="city" label="城市" />
+        <el-table-column prop="area" label="地区" />
+      </el-table-column>
+
+      <el-table-column label="身份证"">
+        <el-table-column prop="idCard" label="身份证号" />
+        <el-table-column prop="idcardPhotoPositive" label="身份证正面" />
+        <el-table-column prop="idcardPhotoNegative" label="身份证反面" />
+      </el-table-column>
+
+      <el-table-column label="银行卡">
+        <el-table-column prop="bankCard" label="银行卡号" />
+        <el-table-column prop="bankCardPhoto" label="银行卡照片" />
+      </el-table-column>
+
+      <el-table-column label="登陆">
+        <el-table-column prop="registerTime" label="注册时间" />
+        <el-table-column prop="lastLoginTime" label="上次登陆" />
+        <el-table-column prop="lastLoginIp" label="上次IP" />
+        <el-table-column prop="registerIp" label="注册IP" />
+      </el-table-column>
+
+      <el-table-column prop="rank" label="排行" />
+      <el-table-column prop="type" label="类别" />
+      <el-table-column prop="comment" label="评价" />
+      <el-table-column prop="enabled" label="无法编辑" />
+      <el-table-column prop="forbiddenReason" label="封号理由" />
       <el-table-column prop="status" label="状态" />
       <el-table-column label="操作" width="100px" align="center">
         <template #default="record">

@@ -33,7 +33,6 @@ export default {
     },
     // 需要接受一个参数，这个参数就是customers
     refreshCustomers(state, customers) {
-      console.log('state->', state)
       state.customers = customers
     },
     // 刷新分页查询结果的数据
@@ -53,7 +52,6 @@ export default {
     },
     // async findAllCustomers({commit,dispatch,getters,state}){
     async findAllCustomers(context) {
-      console.log('context->', context)
       // 1. 查询所有顾客信息
       const response = await get('/customer/findAll')
       // alert(JSON.stringify(response));

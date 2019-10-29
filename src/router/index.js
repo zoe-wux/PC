@@ -115,7 +115,7 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/pages/customer/List'),
         name: 'customer',
-        meta: { title: '顾客管理', icon: 'edit', noCache: true }
+        meta: { title: '顾客管理', icon: 'user', noCache: true }
       }
     ]
   },
@@ -154,7 +154,7 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/pages/product/List'),
         name: 'product',
-        meta: { title: '产品管理', icon: 'edit', noCache: true }
+        meta: { title: '产品管理', icon: 'example', noCache: true }
       }
     ]
   },
@@ -168,7 +168,7 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/pages/order/List'),
         name: 'category',
-        meta: { title: '订单管理', icon: 'edit', noCache: true }
+        meta: { title: '订单管理', icon: 'star', noCache: true }
       }
     ]
   },
@@ -194,11 +194,30 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/pages/waiter/List'),
         name: 'category',
-        meta: { title: '员工管理', icon: 'edit', noCache: true }
+        meta: { title: '员工管理', icon: 'tab', noCache: true }
       }
     ]
   },
-
+  {
+    path: '/review',
+    component: Layout,
+    // redirect: '/review/list',
+    meta: { title: '审核大厅', icon: 'form' },
+    children: [
+      {
+        path: 'waterReview',
+        component: () => import('@/pages/review/waterReview'),
+        name: 'waterReview',
+        meta: { title: '员工审核', icon: 'form', noCache: true }
+      },
+      {
+        path: 'withdrawReview',
+        component: () => import('@/pages/review/withdrawReview'),
+        name: 'withdrawReview',
+        meta: { title: '提现审核', icon: 'form', noCache: true }
+      }
+    ]
+  },
   // {
   //   path: '/comment',
   //   component: Layout,
