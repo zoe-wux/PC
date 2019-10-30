@@ -234,7 +234,7 @@ export default {
     toDetails(order) {
       // 跳转到顾客详情页面
       this.$router.push({
-        path: '/orderDetail',
+        path: '/order/orderDetail',
         query: { order }
         // params:{id:1}
       })
