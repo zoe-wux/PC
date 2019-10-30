@@ -32,7 +32,7 @@
         <el-table-column prop="area" label="地区" />
       </el-table-column>
 
-      <el-table-column label="身份证"">
+      <el-table-column label="身份证">
         <el-table-column prop="idCard" label="身份证号" />
         <el-table-column prop="idcardPhotoPositive" label="身份证正面" />
         <el-table-column prop="idcardPhotoNegative" label="身份证反面" />
