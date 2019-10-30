@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 import customerDetail from '../pages/customer/customerDetail'
+import waiterDetail from '../pages/waiter/waiterDetail'
 /* Layout */
 import Layout from '@/layout'
 
@@ -127,8 +128,9 @@ export const asyncRoutes = [
       {
         path: '/customer/customerDetail',
         name: 'customerDetail',
-        component: customerDetail
-        // meta: { title: '顾客详情', icon: 'edit', noCache: true }
+        component: customerDetail,
+        hidden: true,
+        meta: { title: '顾客详情', icon: 'edit', noCache: true }
       }
     ]
   },
@@ -180,8 +182,9 @@ export const asyncRoutes = [
       {
         path: '/order/orderDetail',
         component: () => import('@/pages/order/orderDetail'),
-        name: 'orderDetail'
-        // meta: { title: '订单详情', icon: 'star', noCache: true }
+        name: 'orderDetail',
+        hidden: true,
+        meta: { title: '订单详情', icon: 'star', noCache: true }
       }
     ]
   },
@@ -198,6 +201,24 @@ export const asyncRoutes = [
   //     }
   //   ]
   // },
+  // {
+  //   path:'/waiter',
+  //   component:Layout,
+  //   children:[
+  //     {
+  //       pash:'list',
+  //       component:()=>('@/pages/waiter/list'),
+  //       name:'waiter_list',
+  //       meta:{title:'员工管理',icon:'tab'}
+  //     },{
+  //       path:'waiterDetail',
+  //       hidden:true,
+  //       component:()=>('@/pages/waiter/waiterDetail'),
+  //       name:'waiter_details',
+  //       meta:{title:'员工详情',icon:'tab'}
+  //     }
+  //   ]
+  // },
   {
     path: '/waiter',
     component: Layout,
@@ -208,6 +229,20 @@ export const asyncRoutes = [
         component: () => import('@/pages/waiter/List'),
         name: 'category',
         meta: { title: '员工管理', icon: 'tab', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/waiter/list',
+    component: Layout,
+    redirect: '/waiter/waiterDetail',
+    children: [
+      {
+        path: '/waiter/waiterDetail',
+        name: 'waiterDetail',
+        hidden: true,
+        component: waiterDetail,
+        meta: { title: '员工详情', icon: 'edit', noCache: true }
       }
     ]
   },

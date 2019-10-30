@@ -15,70 +15,24 @@
         </el-form>
       </el-col>
       <!-- /左侧搜索 -->
-      <!-- 右侧按钮 -->
-      <el-col :span="8" style="text-align:right">
-        <el-button type="primary" icon="el-icon-edit" size="small" @click="toAddHandler">添加</el-button>
-        <el-button type="danger" icon="el-icon-delete" size="small" @click="batchHandler">批量删除</el-button>
-      </el-col>
-      <!-- /右侧按钮 -->
     </div>
     <!-- 展示数据表格 -->
     <el-table :data="waiters" @selection-change="idsChangeHandler">
       <el-table-column type="selection" width="55" />
+      <el-table-column type="id" label="编号" />
       <el-table-column prop="realname" label="姓名" />
       <el-table-column prop="telephone" label="手机号" />
-      <el-table-column prop="password" label="密码" />
-      <el-table-column prop="gender" label="性别" />
+      <el-table-column prop="idCard" label="身份证号" />
+      <el-table-column prop="bankCard" label="银行卡号" />
+      <el-table-column prop="registerTime" label="注册时间" />
       <el-table-column prop="status" label="状态" />
       <el-table-column label="操作" width="100px" align="center">
         <template #default="record">
-          <a href="" class="el-icon-delete" @click.prevent="deleteHandler(record.row.id)" /> &nbsp;
-          <a href="" class="el-icon-edit-outline" @click.prevent="editHandler(record.row)" /> &nbsp;
           <a href="" @click.prevent="toDetails(record.row)">详情</a>
         </template>
       </el-table-column>
     </el-table>
-    <!--更新操作模态框-->
-    <el-dialog :title="title" :visible="visible" @close="dialogCloseHandler">
-      <el-form ref="waiterForm" :model="form" :rules="rules">
-        <el-form-item label="姓名" :label-width="formLabelWidth" prop="realname">
-          <el-input v-model="form.realname" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="电话" :label-width="formLabelWidth" prop="telephone">
-          <el-input v-model="form.telephone" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="密码" :label-width="formLabelWidth" prop="password">
-          <el-input v-model="form.password" autocomplete="off" show-password />
-        </el-form-item>
-        <el-form-item label="性别" :label-width="formLabelWidth" prop="gender">
-          <el-radio-group v-model="form.gender">
-            <el-radio label="男" />
-            <el-radio label="女" />
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth">
-          <el-input v-model="form.status" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="头像" :label-width="formLabelWidth">
-          <el-input v-model="form.photo" autocomplete="off" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogCloseHandler">取 消</el-button>
-        <el-button type="primary" @click="submitHandler(form)">确 定</el-button>
-      </div>
-    </el-dialog>
 
-    <!-- 分页 -->
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :current-page="queryResult.page+1"
-      :page-size="queryResult.pageSize"
-      :total="queryResult.total"
-      @current-change="pageChangeHandler"
-    />
-    <!--/分页 -->
   </div>
 </template>
 <script>
@@ -96,19 +50,6 @@ export default {
         realname: '', // 实现查询的条件之一
         telephone: '',
         status: ''
-      },
-      rules: {
-        realname: [
-          { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
-        ],
-        telephone: [
-          { required: true, message: '请输入手机号', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 6, max: 9, message: '长度在 6 到 9 个字符', trigger: 'blur' }
-        ]
       }
     }
   },
@@ -129,10 +70,10 @@ export default {
     ...mapActions('address', ['findAddressBywaiterId']),
     // 普通方法
     toDetails(waiter) {
-      // 跳转到顾客详情页面
+      // 跳转到员工详情页面
       this.$router.push({
         path: '/waiter/waiterDetail',
-        query: { waiter }
+        query: { id: waiter.id }
         // params:{id:1}
       })
     },
@@ -183,11 +124,11 @@ export default {
       this.showModal()
     },
     // 监控模态框关闭
-    dialogCloseHandler() {
-      this.closeModal()
-      this.$refs.waiterForm.resetFields()
-      this.form = {}
-    },
+    // dialogCloseHandler() {
+    //   this.closeModal()
+    //   this.$refs.waiterForm.resetFields()
+    //   this.form = {}
+    // },
     // 批量删除
     batchHandler() {
       this.$confirm('此操作将永久删除该数据, 是否继续?', '提示', {
