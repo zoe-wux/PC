@@ -141,7 +141,7 @@ export const asyncRoutes = [
         path: 'list',
         component: () => import('@/pages/category/List'),
         name: 'category',
-        meta: { title: '栏目设置', icon: 'edit', noCache: true }
+        meta: { title: '栏目管理', icon: 'edit', noCache: true }
       }
     ]
   },
@@ -201,7 +201,6 @@ export const asyncRoutes = [
   {
     path: '/review',
     component: Layout,
-    // redirect: '/review/list',
     meta: { title: '审核大厅', icon: 'form' },
     children: [
       {
