@@ -22,7 +22,7 @@
       <!-- /右侧按钮 -->
     </div>
     <!--展示数据表格-->
-    <el-table :data="categories" style="width: 100%;" @selection-change="handleSelectionChange">
+    <el-table :data="categories" style="width: 100%;" size="small" @selection-change="handleSelectionChange">
       <el-table-column v-model="ids" type="selection" width="55" />
       <!-- <el-table-column label="编号" width="80" align="center">
 		 	<template v-slot:default="scope">
@@ -39,6 +39,7 @@
         <template v-slot:default="scope">
           <el-button type="danger" icon="el-icon-delete" circle @click.prevent="deleteHandler(scope.row.id)" />
           <el-button type="primary" icon="el-icon-edit" circle @click.prevent="editHandler(scope.row)" />
+          <el-button type="primary" icon="el-icon-warning" circle @click.prevent="toDetail(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -57,6 +58,17 @@
         </el-form-item>
         <el-form-item label="父栏目" :label-width="formLabelWidth">
           <el-input v-model="form.parentId" autocomplete="off" />
+        </el-form-item>
+        <el-form-item>
+          <el-upload
+            class="upload-demo"
+            action="http://39.105.77.125:6677/file/upload"
+            :file-list="fileList"
+            list-type="picture"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -89,7 +101,8 @@ export default {
           { required: true, message: '请输入数量', trigger: 'blur' },
           { min: 1, max: 3, message: '数量为0-999', trigger: 'blur' }
         ]
-      }
+      },
+      fileList: []
     }
   },
   computed: {
@@ -169,6 +182,10 @@ export default {
       this.closeModal()
       this.$refs.categoryForm.resetFields()
       this.form = {}
+    },
+    // 查看详情
+    toDetail(category) {
+      this.$router.push({ path: '/category/categoryDetail', query: { category }})
     }
   },
   created() {

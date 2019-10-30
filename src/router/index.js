@@ -148,6 +148,19 @@ export const asyncRoutes = [
     ]
   },
   {
+    path: '/category/list',
+    component: Layout,
+    redirect: '/category/categoryDetail',
+    children: [
+      {
+        path: '/category/categoryDetail',
+        component: () => import('@/pages/category/categoryDetail'),
+        name: 'categoryDetail'
+        // meta: { title: '栏目管理', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+  {
     path: '/product',
     component: Layout,
     redirect: '/product/list',
