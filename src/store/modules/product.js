@@ -7,7 +7,8 @@ export default {
     products: [],
     queryResult: {},
     formLabelWidth: '80px',
-    title: '添加产品信息'
+    title: '添加产品信息',
+    product: {} // 当前产品信息
   },
   getters: {
     countproducts: (state) => {
@@ -43,9 +44,16 @@ export default {
     },
     setTitle(state, title) {
       state.title = title
+    },
+    refreshproduct(state, product) {
+      state.product = product
     }
   },
   actions: {
+    async findProductById(context, id) {
+      const response = await get('/product/findById', { id })
+      context.commit('refreshproduct', response.data)
+    },
     async batchDeleteproducts(context, ids) {
       const response = await post_array('/product/batchDelete', { ids }) // //参数为对象
       context.dispatch('findAllproducts')

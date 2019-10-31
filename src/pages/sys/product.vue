@@ -25,35 +25,52 @@
     <!-- 展示数据表格 -->
     <el-table :data="products" style="width: 100%;" @selection-change="idsChangeHandler">
       <el-table-column v-model="ids" type="selection" width="55" />
+      <el-table-column prop="id" label="编号" />
       <el-table-column prop="name" label="产品名称" />
       <el-table-column prop="price" label="价格" />
-      <el-table-column prop="status" label="状态" />
+      <el-table-column prop="description" label="描述" />
+      <el-table-column prop="categoryId" label="所属产品" />
       <!-- <el-table-column prop="photo" label="图片" /> -->
       <!-- <el-table-column #default="scope" width="100px" height="100%" label="图片" align="center">
         <img :src="scope.row.photo">
       </el-table-column> -->
-      <el-table-column label="操作" align="center">
+      <el-table-column label="操作" width="100" align="center">
         <template #default="record">
-          <a href="" class="el-icon-delete" @click.prevent="deleteHandler(record.row.id)" /> &nbsp;
-          <a href="" class="el-icon-edit-outline" @click.prevent="editHandler(record.row)" /> &nbsp;
+          <i href="" class="el-icon-delete" @click.prevent="deleteHandler(record.row.id)" /> &nbsp;
+          <i href="" class="el-icon-edit-outline" @click.prevent="editHandler(record.row)" /> &nbsp;
           <a href="" @click.prevent="toDetails(record.row)">详情</a>
         </template>
       </el-table-column>
     </el-table>
     <!--更新操作模态框-->
     <el-dialog :title="title" :visible="visible" @close="dialogCloseHandler">
+      {{ form }}
       <el-form ref="productForm" :model="form" :rules="rules">
         <el-form-item label="产品名称" :label-width="formLabelWidth" prop="name">
           <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="电话" :label-width="formLabelWidth" prop="price">
+        <el-form-item label="价格" :label-width="formLabelWidth" prop="price">
           <el-input v-model="form.price" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="状态" :label-width="formLabelWidth" prop="status">
-          <el-input v-model="form.status" autocomplete="off" show-status />
+        <el-form-item label="所属栏目" :label-width="formLabelWidth" prop="categoryId">
+          <el-select v-model="form.categoryId">
+            <el-option v-for="c in categories" :key="c.id" :value="c.id">{{ c.name }}</el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-input v-model="form.photo" autocomplete="off" />
+        <el-form-item label="介绍" :label-width="formLabelWidth" prop="description">
+          <el-input v-model="form.description" type="textarea" autocomplete="off" show-status />
+        </el-form-item>
+        <el-form-item label="产品主图" :label-width="formLabelWidth">
+          <el-upload
+            class="upload-demo"
+            action="https://134.175.154.93:6677/file/upload"
+            :file-list="fileList"
+            list-type="picture"
+            @on-success="uploadSuccessHandler"
+          >
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -63,14 +80,14 @@
     </el-dialog>
 
     <!-- 分页 -->
-    <el-pagination
+    <!-- <el-pagination
       background
       layout="prev, pager, next"
       :current-page="queryResult.page+1"
       :page-size="queryResult.pageSize"
       :total="queryResult.total"
       @current-change="pageChangeHandler"
-    />
+    /> -->
     <!--/分页 -->
   </div>
 </template>
@@ -80,6 +97,7 @@ import { isNumber } from 'util'
 export default {
   data() {
     return {
+      fileList: [],
       ids: [],
       form: {},
       keyWord: '', // 关键字查询
@@ -98,20 +116,20 @@ export default {
         price: [
           { required: true, message: '请输入价格', trigger: 'blur' },
           { min: 1, max: 4, message: '长度在 1 到 4 个字符', trigger: 'blur' }
-        ],
-        status: [
-          { required: true, message: '请输入状态', trigger: 'blur' },
-          { min: 1, max: 9, message: '长度在 1 到 9 个字符', trigger: 'blur' }
         ]
+
       }
     }
   },
   created() {
     // this.findAllproducts();
-    this.query(this.search)
+    // this.query(this.search);
+    this.findAllproducts()
+    this.findAllCategories()
   },
   computed: {
     ...mapState('product', ['products', 'visible', 'title', 'queryResult', 'formLabelWidth']),
+    ...mapState('category', ['categories']),
     ...mapGetters('product', ['countproducts', 'productStatusFilter'])
     // 普通属性
 
@@ -119,14 +137,26 @@ export default {
   methods: {
     ...mapActions('product', ['findAllproducts', 'deleteproductById', 'saveOrUpdateproduct', 'batchDeleteproducts', 'query']),
     ...mapMutations('product', ['showModal', 'closeModal', 'setTitle']),
+    ...mapMutations('category', ['refreshCategories']),
     // 映射查找该产品的所有地址方法
     ...mapActions('address', ['findAddressByproductId']),
+    ...mapActions('category', ['findAllCategories']),
     // 普通方法
-    toDetails(product) {
+    uploadSuccessHandler(response) {
+      if (response.status === 200) {
+        const id = response.data.id
+        const photo = 'http://134.175.154.93:8888/group1/' + id
+        alert(photo)
+        this.form.photo = photo
+      } else {
+        this.message.error('上传异常')
+      }
+    },
+    toDetails(id) {
       // 跳转到产品详情页面
       this.$router.push({
-        path: '/product/productDetail',
-        query: { product }
+        path: '/sys/productDetail',
+        query: { id }
         // params:{id:1}
       })
     },
@@ -146,7 +176,8 @@ export default {
           this.saveOrUpdateproduct(this.form)
             .then((response) => {
               this.$message({ type: 'success', message: response.statusText })
-              this.query(this.search)
+              // this.query(this.search)
+              this.findAllproducts()
             })
         } else {
           return false
@@ -167,7 +198,8 @@ export default {
                 type: 'success',
                 message: response.statusText
               })
-              this.query(this.search)
+              // this.query(this.search)
+              this.findAllproducts()
             })
         })
     },
@@ -196,7 +228,7 @@ export default {
                 type: 'success',
                 message: response.statusText
               })
-              this.query(this.search)
+              // this.query(this.search)
             })
         })
     },
@@ -214,13 +246,14 @@ export default {
       }
       // this.search.name=this.keyWord;
 
-      this.query(this.search)
-    },
-		 // 翻页
-    pageChangeHandler(currentPage) {
-      this.search.page = currentPage - 1
-      this.query(this.search)
+      // this.query(this.search)
+      this.findAllproducts()
     }
+		 // 翻页
+    // pageChangeHandler(currentPage) {
+    //   this.search.page = currentPage - 1
+    //   this.query(this.search)
+    // }
   }
 }
 </script>

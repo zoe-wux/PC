@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 import customerDetail from '../pages/customer/customerDetail'
 import waiterDetail from '../pages/waiter/waiterDetail'
+import productDetail from '../pages/sys/productDetail'
 /* Layout */
 import Layout from '@/layout'
 
@@ -160,19 +161,19 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/product',
-    component: Layout,
-    redirect: '/product/list',
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/pages/product/List'),
-        name: 'product',
-        meta: { title: '产品管理', icon: 'example', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/product',
+  //   component: Layout,
+  //   redirect: '/product/list',
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/pages/product/List'),
+  //       name: 'product',
+  //       meta: { title: '产品管理', icon: 'example', noCache: true }
+  //     }
+  //   ]
+  // },
 
   {
     path: '/order',
@@ -278,6 +279,47 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/sys',
+    component: Layout,
+    meta: { title: '系统配置', icon: 'tab' },
+    children: [
+      {
+        path: 'category',
+        component: () => import('@/pages/sys/Category-two'),
+        name: 'category',
+        meta: { title: '栏目管理', icon: 'tab' }
+      },
+      {
+        path: 'product',
+        component: () => import('@/pages/sys/product'),
+        name: 'product',
+        meta: { title: '产品管理', icon: 'tab' }
+      },
+      {
+        path: 'productDetail',
+        component: () => import('@/pages/sys/productDetail'),
+        name: 'productDetail',
+        hidden: true,
+        meta: { title: '产品详情', icon: 'tab' }
+      }
+    ]
+  },
+
+  // {
+  //   path: '/sys/product',
+  //   component: Layout,
+  //   redirect: '/sys/productDetail',
+  //   children: [
+  //     {
+  //       path: '/sys/productDetail',
+  //       name: 'productDetail',
+  //       component: productDetail,
+  //       hidden: true,
+  //       meta: { title: '产品详情', icon: 'edit', noCache: true }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/comment',
   //   component: Layout,
