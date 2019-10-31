@@ -63,10 +63,11 @@
         <el-form-item label="产品主图" :label-width="formLabelWidth">
           <el-upload
             class="upload-demo"
-            action="https://134.175.154.93:6677/file/upload"
+            action="http://134.175.154.93:6677/file/upload"
             :file-list="fileList"
             list-type="picture"
-            @on-success="uploadSuccessHandler"
+            :limit="1"
+            :on-success="uploadSuccessHandler"
           >
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
@@ -144,10 +145,11 @@ export default {
     // 普通方法
     uploadSuccessHandler(response) {
       if (response.status === 200) {
-        const id = response.data.id
+        const id = response.data.id.id
         const photo = 'http://134.175.154.93:8888/group1/' + id
-        alert(photo)
         this.form.photo = photo
+        // 克隆
+        this.product = Object.assign({}, this.product)
       } else {
         this.message.error('上传异常')
       }
@@ -204,7 +206,9 @@ export default {
         })
     },
     editHandler(row) {
+      // 将当前行的信息绑定from
       this.form = row
+      this.fileList.push({ name: 'old', url: row.photo })
       this.setTitle('修改产品信息')
       this.showModal()
     },
