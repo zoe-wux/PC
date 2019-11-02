@@ -135,19 +135,19 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/category',
-    component: Layout,
-    redirect: '/category/list',
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/pages/category/List'),
-        name: 'category',
-        meta: { title: '栏目管理', icon: 'edit', noCache: true }
-      }
-    ]
-  },
+  // {
+  //   path: '/category',
+  //   component: Layout,
+  //   redirect: '/category/list',
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/pages/category/List'),
+  //       name: 'category',
+  //       meta: { title: '栏目管理', icon: 'edit', noCache: true }
+  //     }
+  //   ]
+  // },
   {
     path: '/category/list',
     component: Layout,
@@ -156,8 +156,9 @@ export const asyncRoutes = [
       {
         path: '/category/categoryDetail',
         component: () => import('@/pages/category/categoryDetail'),
-        name: 'categoryDetail'
-        // meta: { title: '栏目管理', icon: 'edit', noCache: true }
+        name: 'categoryDetail',
+        hidden: true,
+        meta: { title: '栏目详情', icon: 'edit', noCache: true }
       }
     ]
   },

@@ -277,18 +277,22 @@ export default {
     // 员工接单
     takeOrderHandler(id) {
       this.takeOrder(id)
+      this.findAllOrders()
     },
-    // 员工接单
+    // 员工拒单
     rejectOrderHandler(id) {
       this.rejectOrder(id)
+      this.findAllOrders()
     },
     // 员工完成服务，等待客户确认
     serviceCompleteOrderHandler(id) {
       this.serviceCompleteOrder(id)
+      this.findAllOrders()
     },
     // 顾客签收订单
     confirmOrder(id) {
       this.confirmOrder(id)
+      this.findAllOrders()
     },
     toDetails(order) {
       // 跳转到顾客详情页面

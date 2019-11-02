@@ -56,7 +56,7 @@
         <el-form-item label="图片" :label-width="formLabelWidth">
           <!-- <el-input v-model="form.icon" autocomplete="off" /> -->
           <el-upload
-            v-model="form.icon"
+
             class="upload-demo"
             action="http://134.175.154.93:6677/file/upload"
             :file-list="fileList"
@@ -99,8 +99,7 @@ export default {
           { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
         ],
         num: [
-          { required: true, message: '请输入数量', trigger: 'blur' },
-          { min: 1, max: 3, message: '数量为0-999', trigger: 'blur' }
+          { required: true, message: '请输入数量', trigger: 'blur' }
         ]
       },
       fileList: []
@@ -124,7 +123,7 @@ export default {
         const groupname = response.data.groupname
         // 图片上传到老师的服务器中
         const icon = 'http://134.175.154.93:8888/' + groupname + '/' + id
-        // this.form.icon=icon;
+        this.form.icon = icon
         // 强制更新vue的双向绑定
         this.form = Object.assign({}, this.form)
       } else {

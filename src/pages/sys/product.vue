@@ -115,8 +115,7 @@ export default {
           { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
         ],
         price: [
-          { required: true, message: '请输入价格', trigger: 'blur' },
-          { min: 1, max: 4, message: '长度在 1 到 4 个字符', trigger: 'blur' }
+          { required: true, message: '请输入价格', trigger: 'blur' }
         ]
 
       }
@@ -145,7 +144,8 @@ export default {
     // 普通方法
     uploadSuccessHandler(response) {
       if (response.status === 200) {
-        const id = response.data.id.id
+        const id = response.data.id
+        console.log('id--', id)
         const photo = 'http://134.175.154.93:8888/group1/' + id
         this.form.photo = photo
         // 克隆
