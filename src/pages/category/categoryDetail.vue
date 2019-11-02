@@ -7,7 +7,7 @@
     <div>栏目名称：{{ category.name }}</div>
     <div>栏目数量：{{ category.num }}</div>
     <div>父级栏目：{{ category.parentId }}</div>
-    <div>栏目主图：{{ category.photo }}</div>
+    <div>栏目主图：<img :src="category.icon"></div>
   </div>
 </template>
 <script>

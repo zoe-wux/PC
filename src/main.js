@@ -18,6 +18,7 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+import moment from 'moment'
 
 /**
  * If you don't want to use mock-server
@@ -41,6 +42,13 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+// 全局注册过滤器
+Vue.filter('datefmt', function(val) {
+  if (val) {
+    return moment(val).format('YYYY-MM-DD HH:mm:ss')
+  }
+  return val
+})
 Vue.config.productionTip = false
 
 new Vue({

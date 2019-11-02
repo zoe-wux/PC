@@ -33,7 +33,6 @@ export default {
     },
     // 需要接受一个参数，这个参数就是waiters
     refreshwaiters(state, waiters) {
-      console.log('state->', state)
       state.waiters = waiters
     },
     // 刷新分页查询结果的数据
@@ -51,13 +50,8 @@ export default {
       context.dispatch('findAllwaiters')
       return response
     },
-    // async findAllwaiters({commit,dispatch,getters,state}){
     async findAllwaiters(context) {
-      console.log('context->', context)
-      // 1. 查询所有员工信息
       const response = await get('/waiter/findAll')
-      // alert(JSON.stringify(response));
-      // 2. 将员工信息设置到state.waiters中
       context.commit('refreshwaiters', response.data)
     },
     async deletewaiterById({ dispatch }, id) {

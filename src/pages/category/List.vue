@@ -54,21 +54,22 @@
           <el-input v-model="form.num" autocomplete="off" />
         </el-form-item>
         <el-form-item label="图片" :label-width="formLabelWidth">
-          <el-input v-model="form.icon" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="父栏目" :label-width="formLabelWidth">
-          <el-input v-model="form.parentId" autocomplete="off" />
-        </el-form-item>
-        <el-form-item>
+          <!-- <el-input v-model="form.icon" autocomplete="off" /> -->
           <el-upload
+            v-model="form.icon"
             class="upload-demo"
-            action="http://39.105.77.125:6677/file/upload"
+            action="http://134.175.154.93:6677/file/upload"
             :file-list="fileList"
+            :limit="1"
+            :on-success="uploadSuccessHandler"
             list-type="picture"
           >
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+        </el-form-item>
+        <el-form-item label="父栏目" :label-width="formLabelWidth">
+          <el-input v-model="form.parentId" autocomplete="off" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -112,6 +113,24 @@ export default {
     ...mapActions('category', ['findAllCategories', 'deleteCategoryById', 'saveOrUpdateCategory', 'batchDeleteCategories', 'query']),
     ...mapMutations('category', ['showModal', 'closeModal', 'refreQuery', 'setTitle']),
     // 普通方法
+    // 文件上传
+    uploadSuccessHandler(response, file, fileList) {
+      console.log('文件的response--', response)
+      console.log('file--', file)
+      console.log('文件的fileList--', fileList)
+      if (response.status === 200) {
+        // 获取上传图片的id
+        const id = response.data.id
+        const groupname = response.data.groupname
+        // 图片上传到老师的服务器中
+        const icon = 'http://134.175.154.93:8888/' + groupname + '/' + id
+        // this.form.icon=icon;
+        // 强制更新vue的双向绑定
+        this.form = Object.assign({}, this.form)
+      } else {
+        this.$message.erro('上传接口异常')
+      }
+    },
     // 修改
     editHandler(category) {
       this.showModal()
@@ -132,7 +151,8 @@ export default {
                 type: 'success',
                 message: response.statusText
               })
-              this.query(this.search)
+              this.findAllCategories()
+              // this.query(this.search)
             })
         })
     },
@@ -154,7 +174,8 @@ export default {
                 type: 'success',
                 message: response.statusText
               })
-              this.query(this.search)
+              this.findAllCategories()
+              // this.query(this.search)
             })
         })
     },
@@ -162,7 +183,8 @@ export default {
     toAddHandler() {
       this.setTitle('添加栏目信息')
       this.showModal()
-      this.query(this.search)
+      this.findAllCategories()
+      // this.query(this.search)
     },
     // 提交更新
     saveOrUpdateHandler(form) {
@@ -170,7 +192,8 @@ export default {
         if (valid) {
           this.saveOrUpdateCategory(form)
             .then(() => {
-              this.query(this.search)
+              // this.query(this.search)
+              this.findAllCategories()
             })
         } else {
           return false

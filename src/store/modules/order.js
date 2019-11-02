@@ -30,13 +30,11 @@ export default {
     },
     // 需要接受一个参数，这个参数就是orders
     refreshOrders(state, orders) {
-      console.log('state->', state)
       state.orders = orders
     },
     // 刷新分页查询结果的数据
-    refreQuery(state, queryResult) {
-      state.queryResult = queryResult
-      state.orders = queryResult.list
+    refreQuery(state, query) {
+      state.orders = query
     },
     refreshAllOrders(state, data) {
       state.allOrders = data
@@ -46,6 +44,37 @@ export default {
     }
   },
   actions: {
+    // 顾客确认收单
+    async confirmOrder({ dispatch }, orderId) {
+      await get('/order/confirmOrder', { orderId })
+      dispatch('query')
+    },
+    // 员工服务完成，订单送达，等待顾客确认
+    async serviceCompleteOrder({ dispatch }, orderId) {
+      await get('/order/serviceCompleteOrder', { orderId })
+      dispatch('query')
+    },
+    // 员工接单
+    async takeOrder({ dispatch }, orderId) {
+      await get('/order/takeOrder', { orderId })
+      dispatch('query')
+    },
+    // 员工拒绝接单
+    async rejectOrder({ dispatch }, orderId) {
+      await get('/order/rejectOrder', { orderId })
+      dispatch('query')
+    },
+    // 平台取消派单
+    async cancelSendOrder({ commit, dispatch }, orderId) {
+      await get('/order/cancelSendOrder', { orderId })
+      dispatch('query')
+    },
+    // 平台手动派单
+    async sendOrder({ dispatch }, query) {
+      await get('/order/sendOrder', query)
+      dispatch('query')
+    },
+    // 批量删除
     async batchDeleteOrders(context, ids) {
       const response = await post_array('/order/batchDelete', { ids }) // //参数为对象
       context.dispatch('findAllOrders')
@@ -79,8 +108,8 @@ export default {
       return response
     },
     // 分页查询
-    async query({ commit, dispatch }, search) {
-      const response = await post('/order/queryPage', search)
+    async query({ commit }) {
+      const response = await get('/order/query')
       commit('refreQuery', response.data)
     },
     // 查询订单信息，返回列表数据
