@@ -290,7 +290,7 @@ export default {
       this.findAllOrders()
     },
     // 顾客签收订单
-    confirmOrder(id) {
+    confirmOrderHandler(id) {
       this.confirmOrder(id)
       this.findAllOrders()
     },
