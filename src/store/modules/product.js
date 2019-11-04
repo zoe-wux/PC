@@ -23,6 +23,12 @@ export default {
           return state.products
         }
       }
+    },
+    // 根据productId过滤
+    productIdFilter: (state) => {
+      return function(productId) {
+        return state.products.filter(item => item.id === productId)
+      }
     }
   },
   mutations: {

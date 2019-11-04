@@ -207,7 +207,7 @@ export default {
     },
     // 查看详情
     toDetail(category) {
-      this.$router.push({ path: '/category/categoryDetail', query: { category }})
+      this.$router.push({ path: '/sys/categoryDetail', query: { category }})
     }
   },
   created() {

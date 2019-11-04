@@ -54,7 +54,7 @@
         </el-form-item>
         <el-form-item label="所属栏目" :label-width="formLabelWidth" prop="categoryId">
           <el-select v-model="form.categoryId">
-            <el-option v-for="c in categories" :key="c.id" :value="c.id">{{ c.name }}</el-option>
+            <el-option v-for="c in categories" :key="c.id" :value="c.id" :label="c.name">{{ c.name }}</el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="介绍" :label-width="formLabelWidth" prop="description">

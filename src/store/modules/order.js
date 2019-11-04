@@ -52,7 +52,7 @@ export default {
     // 员工服务完成，订单送达，等待顾客确认
     async serviceCompleteOrder({ dispatch }, orderId) {
       await get('/order/serviceCompleteOrder', { orderId })
-      dispatch('query')
+      dispatch('findAllOrders')
     },
     // 员工接单
     async takeOrder({ dispatch }, orderId) {
@@ -116,6 +116,11 @@ export default {
     async queryBasic({ commit, dispath }, customerId) {
       const response = await get('/order/queryBasic', { customerId })
       commit('refreshQueryBasic', response.data)
+    },
+    async findOrderById(context, orderId) {
+      const response = await get('/order/getOrderLinesByOrderId', { orderId })
+
+      context.commit('refreshAllOrders', response.data)
     }
   }
 }

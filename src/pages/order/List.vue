@@ -92,7 +92,7 @@
           <el-table-column prop="customerId" label="顾客编号" />
           <el-table-column label="操作" width="250px" align="center">
             <template #default="record">
-              <a href="" class="el-icon-check" @click.prevent="sendHandler(record.row.id)">选择派单</a> &nbsp;
+              <a href="" class="el-icon-check" @click.prevent="sendHandler(record.row.id)">派单</a> &nbsp;
               <a href="" class="el-icon-close" @click.prevent="rejectHandler(record.row.id)">拒绝派单</a>&nbsp;
               <a href="" class="el-icon-warning" @click.prevent="toDetails(record.row)">查看详情</a>
             <!-- <el-switch
@@ -205,6 +205,7 @@ export default {
       ids: [],
       form: {},
       customersId: [],
+
       PD_query: {
         waiterId: [], // 选择派单的员工
         orderId: []// 选中派单的订单
@@ -212,8 +213,7 @@ export default {
       activeName: 'allOrder',
       stateSelect: true,
       search: {
-        page: 0,
-        pageSize: 9, // 每页显示几条数据
+
         customerId: ''// 实现查询的条件之一
 	    },
       rules: {
@@ -230,7 +230,7 @@ export default {
   },
   created() {
     this.findAllOrders()
-    this.query(this.search)
+    this.query()
     this.findAllwaiters()
   },
   computed: {
@@ -295,10 +295,12 @@ export default {
       this.findAllOrders()
     },
     toDetails(order) {
+      console.log('order', order)
       // 跳转到顾客详情页面
+      var order_id = order.id
       this.$router.push({
         path: '/order/orderDetail',
-        query: { order }
+        query: { order_id }
         // params:{id:1}
       })
     },
@@ -327,7 +329,7 @@ export default {
       })
     },
     filterStatus() {
-      // this.findAllOrders();
+      this.findAllOrders()
       // this.statusDpd("待派单");
     },
 

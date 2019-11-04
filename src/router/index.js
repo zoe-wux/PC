@@ -4,7 +4,6 @@ import Router from 'vue-router'
 Vue.use(Router)
 import customerDetail from '../pages/customer/customerDetail'
 import waiterDetail from '../pages/waiter/waiterDetail'
-import productDetail from '../pages/sys/productDetail'
 /* Layout */
 import Layout from '@/layout'
 
@@ -82,7 +81,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '斑马服务', icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -135,46 +134,6 @@ export const asyncRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/category',
-  //   component: Layout,
-  //   redirect: '/category/list',
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/pages/category/List'),
-  //       name: 'category',
-  //       meta: { title: '栏目管理', icon: 'edit', noCache: true }
-  //     }
-  //   ]
-  // },
-  {
-    path: '/category/list',
-    component: Layout,
-    redirect: '/category/categoryDetail',
-    children: [
-      {
-        path: '/category/categoryDetail',
-        component: () => import('@/pages/category/categoryDetail'),
-        name: 'categoryDetail',
-        hidden: true,
-        meta: { title: '栏目详情', icon: 'edit', noCache: true }
-      }
-    ]
-  },
-  // {
-  //   path: '/product',
-  //   component: Layout,
-  //   redirect: '/product/list',
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/pages/product/List'),
-  //       name: 'product',
-  //       meta: { title: '产品管理', icon: 'example', noCache: true }
-  //     }
-  //   ]
-  // },
 
   {
     path: '/order',
@@ -203,37 +162,6 @@ export const asyncRoutes = [
       }
     ]
   },
-  // {
-  //   path: '/address',
-  //   component: Layout,
-  //   redirect: '/address/list',
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/pages/address/List'),
-  //       name: 'category',
-  //       meta: { title: '地址管理', icon: 'edit', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path:'/waiter',
-  //   component:Layout,
-  //   children:[
-  //     {
-  //       pash:'list',
-  //       component:()=>('@/pages/waiter/list'),
-  //       name:'waiter_list',
-  //       meta:{title:'员工管理',icon:'tab'}
-  //     },{
-  //       path:'waiterDetail',
-  //       hidden:true,
-  //       component:()=>('@/pages/waiter/waiterDetail'),
-  //       name:'waiter_details',
-  //       meta:{title:'员工详情',icon:'tab'}
-  //     }
-  //   ]
-  // },
   {
     path: '/waiter',
     component: Layout,
@@ -287,9 +215,16 @@ export const asyncRoutes = [
     children: [
       {
         path: 'category',
-        component: () => import('@/pages/sys/Category-two'),
+        component: () => import('@/pages/sys/category'),
         name: 'category',
         meta: { title: '栏目管理', icon: 'tab' }
+      },
+      {
+        path: 'categoryDetail',
+        component: () => import('@/pages/sys/categoryDetail'),
+        name: 'categoryDetail',
+        hidden: true,
+        meta: { title: '栏目详情', icon: 'tab' }
       },
       {
         path: 'product',
@@ -306,77 +241,6 @@ export const asyncRoutes = [
       }
     ]
   },
-
-  // {
-  //   path: '/sys/product',
-  //   component: Layout,
-  //   redirect: '/sys/productDetail',
-  //   children: [
-  //     {
-  //       path: '/sys/productDetail',
-  //       name: 'productDetail',
-  //       component: productDetail,
-  //       hidden: true,
-  //       meta: { title: '产品详情', icon: 'edit', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/comment',
-  //   component: Layout,
-  //   redirect: '/comment/list',
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/pages/comment/List'),
-  //       name: 'category',
-  //       meta: { title: '评论管理', icon: 'edit', noCache: true }
-  //     }
-  //   ]
-  // },
-  /*
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: 'Permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'Directive Permission'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: 'Role Permission',
-          roles: ['admin']
-        }
-      }
-    ]
-  },
-  */
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
